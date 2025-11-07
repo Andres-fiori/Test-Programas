@@ -1,0 +1,523 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+        <edmx:Include Alias="Measures" Namespace="Org.OData.Measures.V1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+        <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1" />
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="BooksSRV">
+            <Annotation Term="Core.Links">
+                <Collection>
+                    <Record>
+                        <PropertyValue Property="rel" String="author" />
+                        <PropertyValue Property="href" String="https://cap.cloud.sap" />
+                    </Record>
+                </Collection>
+            </Annotation>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="BooksSet" EntityType="BooksSRV.BooksSet">
+                    <NavigationPropertyBinding Path="category" Target="VH_Categories" />
+                    <NavigationPropertyBinding Path="language" Target="Languages" />
+                    <NavigationPropertyBinding Path="currency" Target="Currencies" />
+                    <NavigationPropertyBinding Path="stock" Target="VH_Status" />
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="BooksSet" />
+                </EntitySet>
+                <EntitySet Name="VH_Categories" EntityType="BooksSRV.VH_Categories" />
+                <EntitySet Name="Languages" EntityType="BooksSRV.Languages">
+                    <NavigationPropertyBinding Path="texts" Target="Languages_texts" />
+                    <NavigationPropertyBinding Path="localized" Target="Languages_texts" />
+                </EntitySet>
+                <EntitySet Name="Currencies" EntityType="BooksSRV.Currencies">
+                    <NavigationPropertyBinding Path="texts" Target="Currencies_texts" />
+                    <NavigationPropertyBinding Path="localized" Target="Currencies_texts" />
+                </EntitySet>
+                <EntitySet Name="VH_Status" EntityType="BooksSRV.VH_Status">
+                    <NavigationPropertyBinding Path="texts" Target="VH_Status_texts" />
+                    <NavigationPropertyBinding Path="localized" Target="VH_Status_texts" />
+                </EntitySet>
+                <EntitySet Name="VH_Years" EntityType="BooksSRV.VH_Years" />
+                <EntitySet Name="Languages_texts" EntityType="BooksSRV.Languages_texts" />
+                <EntitySet Name="Currencies_texts" EntityType="BooksSRV.Currencies_texts" />
+                <EntitySet Name="VH_Status_texts" EntityType="BooksSRV.VH_Status_texts" />
+            </EntityContainer>
+            <EntityType Name="BooksSet">
+                <Key>
+                    <PropertyRef Name="ID" />
+                    <PropertyRef Name="IsActiveEntity" />
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false" />
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7" />
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255" />
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7" />
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255" />
+                <Property Name="bookCode" Type="Edm.String" MaxLength="10" />
+                <Property Name="title" Type="Edm.String" MaxLength="150" />
+                <Property Name="description" Type="Edm.String" MaxLength="250" />
+                <Property Name="author" Type="Edm.String" MaxLength="250" />
+                <NavigationProperty Name="category" Type="BooksSRV.VH_Categories">
+                    <ReferentialConstraint Property="category_ID" ReferencedProperty="ID" />
+                </NavigationProperty>
+                <Property Name="category_ID" Type="Edm.Guid" />
+                <NavigationProperty Name="language" Type="BooksSRV.Languages">
+                    <ReferentialConstraint Property="language_code" ReferencedProperty="code" />
+                </NavigationProperty>
+                <Property Name="language_code" Type="Edm.String" MaxLength="14" />
+                <Property Name="publicationYear" Type="Edm.Int32" />
+                <Property Name="rating" Type="Edm.Decimal" Precision="3" Scale="2" />
+                <Property Name="price" Type="Edm.Decimal" Precision="6" Scale="2" />
+                <NavigationProperty Name="currency" Type="BooksSRV.Currencies">
+                    <ReferentialConstraint Property="currency_code" ReferencedProperty="code" />
+                </NavigationProperty>
+                <Property Name="currency_code" Type="Edm.String" MaxLength="3" />
+                <NavigationProperty Name="stock" Type="BooksSRV.VH_Status">
+                    <ReferentialConstraint Property="stock_code" ReferencedProperty="code" />
+                </NavigationProperty>
+                <Property Name="stock_code" Type="Edm.String" />
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true" />
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false" />
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false" />
+                <NavigationProperty Name="DraftAdministrativeData" Type="BooksSRV.DraftAdministrativeData" ContainsTarget="true" />
+                <NavigationProperty Name="SiblingEntity" Type="BooksSRV.BooksSet" />
+                <Property Name="DraftMessages" Type="Collection(BooksSRV.DRAFT_DraftAdministrativeData_DraftMessage)" Nullable="true" />
+            </EntityType>
+            <EntityType Name="VH_Categories">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false" />
+                <Property Name="category" Type="Edm.String" MaxLength="150" />
+            </EntityType>
+            <EntityType Name="Languages">
+                <Key>
+                    <PropertyRef Name="code" />
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255" />
+                <Property Name="descr" Type="Edm.String" MaxLength="1000" />
+                <Property Name="code" Type="Edm.String" MaxLength="14" Nullable="false" />
+                <NavigationProperty Name="texts" Type="Collection(BooksSRV.Languages_texts)">
+                    <OnDelete Action="Cascade" />
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="BooksSRV.Languages_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code" />
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Currencies">
+                <Key>
+                    <PropertyRef Name="code" />
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255" />
+                <Property Name="descr" Type="Edm.String" MaxLength="1000" />
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false" />
+                <Property Name="symbol" Type="Edm.String" MaxLength="5" />
+                <Property Name="minorUnit" Type="Edm.Int16" />
+                <NavigationProperty Name="texts" Type="Collection(BooksSRV.Currencies_texts)">
+                    <OnDelete Action="Cascade" />
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="BooksSRV.Currencies_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code" />
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="VH_Status">
+                <Key>
+                    <PropertyRef Name="code" />
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255" />
+                <Property Name="descr" Type="Edm.String" MaxLength="1000" />
+                <Property Name="code" Type="Edm.String" Nullable="false" />
+                <Property Name="criticality" Type="Edm.Int16" />
+                <NavigationProperty Name="texts" Type="Collection(BooksSRV.VH_Status_texts)">
+                    <OnDelete Action="Cascade" />
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="BooksSRV.VH_Status_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code" />
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="VH_Years">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false" />
+                <Property Name="year" Type="Edm.String" MaxLength="4" />
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID" />
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false" />
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7" />
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256" />
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean" />
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7" />
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256" />
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256" />
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean" />
+            </EntityType>
+            <EntityType Name="Languages_texts">
+                <Key>
+                    <PropertyRef Name="locale" />
+                    <PropertyRef Name="code" />
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false" />
+                <Property Name="name" Type="Edm.String" MaxLength="255" />
+                <Property Name="descr" Type="Edm.String" MaxLength="1000" />
+                <Property Name="code" Type="Edm.String" MaxLength="14" Nullable="false" />
+            </EntityType>
+            <EntityType Name="Currencies_texts">
+                <Key>
+                    <PropertyRef Name="locale" />
+                    <PropertyRef Name="code" />
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false" />
+                <Property Name="name" Type="Edm.String" MaxLength="255" />
+                <Property Name="descr" Type="Edm.String" MaxLength="1000" />
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false" />
+            </EntityType>
+            <EntityType Name="VH_Status_texts">
+                <Key>
+                    <PropertyRef Name="locale" />
+                    <PropertyRef Name="code" />
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false" />
+                <Property Name="name" Type="Edm.String" MaxLength="255" />
+                <Property Name="descr" Type="Edm.String" MaxLength="1000" />
+                <Property Name="code" Type="Edm.String" Nullable="false" />
+            </EntityType>
+            <ComplexType Name="DRAFT_DraftAdministrativeData_DraftMessage">
+                <Property Name="code" Type="Edm.String" />
+                <Property Name="message" Type="Edm.String" />
+                <Property Name="target" Type="Edm.String" />
+                <Property Name="additionalTargets" Type="Collection(Edm.String)" Nullable="true" />
+                <Property Name="transition" Type="Edm.Boolean" />
+                <Property Name="numericSeverity" Type="Edm.Byte" />
+                <Property Name="longtextUrl" Type="Edm.String" />
+            </ComplexType>
+            <!-- >Inicio - Acciones Draft</!-->
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="BooksSRV.BooksSet" />
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String" />
+                <ReturnType Type="BooksSRV.BooksSet" />
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="BooksSRV.BooksSet" />
+                <ReturnType Type="BooksSRV.BooksSet" />
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="BooksSRV.BooksSet" />
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean" />
+                <ReturnType Type="BooksSRV.BooksSet" />
+            </Action>
+            <!-- >Fin - Acciones Draft</!-->
+
+            <Annotations Target="BooksSRV.EntityContainer">
+                <Annotation Term="Common.AddressViaNavigationPath" Bool="true" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.EntityContainer/BooksSet">
+                <Annotation Term="Capabilities.FilterRestrictions">
+                    <Record Type="Capabilities.FilterRestrictionsType">
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record Type="Capabilities.FilterExpressionRestrictionType">
+                                    <PropertyValue Property="Property" PropertyPath="bookCode" />
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression" />
+                                </Record>
+                                <Record Type="Capabilities.FilterExpressionRestrictionType">
+                                    <PropertyValue Property="Property" PropertyPath="title" />
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="BooksSRV.draftActivate" />
+                        <PropertyValue Property="EditAction" String="BooksSRV.draftEdit" />
+                        <PropertyValue Property="PreparationAction" String="BooksSRV.draftPrepare" />
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true" />
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true" />
+                <Annotation Term="Core.Immutable" Bool="true" />
+                <Annotation Term="Core.Computed" Bool="true" />
+                <Annotation Term="Common.Label" String="Fecha de creación" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true" />
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true" />
+                <Annotation Term="Core.Immutable" Bool="true" />
+                <Annotation Term="Core.Computed" Bool="true" />
+                <Annotation Term="Core.Description" String="ID único de usuario" />
+                <Annotation Term="Common.Label" String="Autor" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true" />
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true" />
+                <Annotation Term="Core.Computed" Bool="true" />
+                <Annotation Term="Common.Label" String="Fecha de modificación" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true" />
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true" />
+                <Annotation Term="Core.Computed" Bool="true" />
+                <Annotation Term="Core.Description" String="ID único de usuario" />
+                <Annotation Term="Common.Label" String="Autor de modificación" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/DraftMessages">
+                <Annotation Term="Core.Computed" Bool="true" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.EntityContainer/VH_Categories">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false" />
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Categories/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Categories/category">
+                <Annotation Term="Common.Label" String="Categorías" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Languages">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="name" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Languages/name">
+                <Annotation Term="Common.Label" String="Nombre" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Languages/descr">
+                <Annotation Term="Common.Label" String="Descripción" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Languages/code">
+                <Annotation Term="Common.Text" Path="name" />
+                <Annotation Term="Common.Label" String="Código de idioma" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="name" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies/name">
+                <Annotation Term="Common.Label" String="Nombre" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies/descr">
+                <Annotation Term="Common.Label" String="Descripción" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies/code">
+                <Annotation Term="Common.Text" Path="name" />
+                <Annotation Term="Common.Label" String="Código de moneda" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies/symbol">
+                <Annotation Term="Common.Label" String="Símbolo de moneda" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies/minorUnit">
+                <Annotation Term="Common.Label" String="Fracciones unidad secundaria de moneda" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Status">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="name" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="BooksSRV.EntityContainer/VH_Status">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false" />
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false" />
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false" />
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Status/name">
+                <Annotation Term="Common.Label" String="Nombre" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Status/descr">
+                <Annotation Term="Common.Label" String="Descripción" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Status/code">
+                <Annotation Term="Validation.AllowedValues">
+                    <Collection>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Available" />
+                            <PropertyValue Property="Value" String="In Stock" />
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="LowAvailability" />
+                            <PropertyValue Property="Value" String="Low Availability" />
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="NotAvailable" />
+                            <PropertyValue Property="Value" String="In Not Stock" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="BooksSRV.EntityContainer/VH_Years">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false" />
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Years/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.DraftAdministrativeData">
+                <Annotation Term="Common.Label" String="Datos administrativos en borrador" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Languages_texts/locale">
+                <Annotation Term="Common.Label" String="Código de idioma" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Languages_texts/name">
+                <Annotation Term="Common.Label" String="Nombre" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Languages_texts/descr">
+                <Annotation Term="Common.Label" String="Descripción" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Languages_texts/code">
+                <Annotation Term="Common.Text" Path="name" />
+                <Annotation Term="Common.Label" String="Código de idioma" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies_texts/locale">
+                <Annotation Term="Common.Label" String="Código de idioma" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies_texts/name">
+                <Annotation Term="Common.Label" String="Nombre" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies_texts/descr">
+                <Annotation Term="Common.Label" String="Descripción" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.Currencies_texts/code">
+                <Annotation Term="Common.Text" Path="name" />
+                <Annotation Term="Common.Label" String="Código de moneda" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Status_texts/locale">
+                <Annotation Term="Common.Label" String="Código de idioma" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Status_texts/name">
+                <Annotation Term="Common.Label" String="Nombre" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Status_texts/descr">
+                <Annotation Term="Common.Label" String="Descripción" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.VH_Status_texts/code">
+                <Annotation Term="Validation.AllowedValues">
+                    <Collection>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Available" />
+                            <PropertyValue Property="Value" String="In Stock" />
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="LowAvailability" />
+                            <PropertyValue Property="Value" String="Low Availability" />
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="NotAvailable" />
+                            <PropertyValue Property="Value" String="In Not Stock" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

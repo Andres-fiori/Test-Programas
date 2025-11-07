@@ -1,0 +1,314 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures" />
+    </edmx:Reference>
+
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1" />
+    </edmx:Reference>
+
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
+    </edmx:Reference>
+
+    <edmx:Reference Uri="/odata/v4/bokks-srv/$metadata">
+        <edmx:Include Namespace="BooksSRV" />
+    </edmx:Reference>
+
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="BooksSet">
+            <!-- >Inicio - Select - Contains</!-->
+            <Annotations Target="BooksSRV.EntityContainer/BooksSet">
+                <Annotation Term="Capabilities.FilterRestrictions">
+                    <Record Type="Capabilities.FilterRestrictionsType">
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record Type="Capabilities.FilterExpressionRestrictionType">
+                                    <PropertyValue Property="Property" PropertyPath="bookCode" />
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression" />
+                                </Record>
+                                <Record Type="Capabilities.FilterExpressionRestrictionType">
+                                    <PropertyValue Property="Property" PropertyPath="title" />
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <!-- >Fin - Select - Contains</!-->
+
+            <!-- >Inicio - Select - Value List</!-->
+            <Annotations Target="BooksSRV.BooksSet/stock_code">
+                <Annotation Qualifier="Stock" Term="Common.Label" String="{@i18n>stock}" />
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="{@i18n>stock}" />
+                        <PropertyValue Property="CollectionPath" String="VH_Status" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="stock_code" />
+                                    <PropertyValue Property="ValueListProperty" String="code" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <!-- >Fin - Select - Value List</!-->
+
+            <!-- >Inicio - Valor único campo ID</!-->
+            <Annotations Target="BooksSRV.BooksSet/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true" />
+            </Annotations>
+            <!-- >Fin - Valor único campo ID</!-->
+
+            <!-- >Inicio - Column Items</!-->
+            <Annotations Target="BooksSRV.BooksSet/bookCode">
+                <Annotation Term="Common.Label" String="{@i18n>bookCode}" />
+            </Annotations>
+            <!-- >Fin - Column Items</!-->
+
+            <!-- >Inicio - Header</!-->
+            <Annotations Target="BooksSRV.BooksSet">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record Type="UI.HeaderInfoType">
+                        <PropertyValue Property="TypeName" String="{@i18n>book}" />
+                        <PropertyValue Property="TypeNamePlural" String="{@i18n>books}" />
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="title" />
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Description">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="bookCode" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <!-- >Fin - Header</!-->
+
+            <!-- >Inicio - Definicion de nombre de columnas</!-->
+            <Annotations Target="BooksSRV.BooksSet/title">
+                <Annotation Term="Common.Label" String="{@i18n>title}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/description">
+                <Annotation Term="Common.Label" String="{@i18n>description}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/author">
+                <Annotation Term="Common.Label" String="{@i18n>author}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/category_ID">
+                <Annotation Term="Common.Label" String="{@i18n>category_ID}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/language_code">
+                <Annotation Term="Common.Label" String="{@i18n>language_code}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/rating">
+                <Annotation Term="Common.Label" String="{@i18n>rating}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/stock_code">
+                <Annotation Term="Common.Label" String="{@i18n>stock_code}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/price">
+                <Annotation Term="Measures.ISOCurrency" Path="currency_code" />
+                <Annotation Term="Common.Label" String="{@i18n>price}" />
+            </Annotations>
+            <!-- >Fin - Definicion de nombre de columnas</!-->
+
+            <!-- >Inicio - Items</!-->
+            <Annotations Target="BooksSRV.BooksSet">
+                <!-- >Inicio - Select Filds</!-->
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>bookCode</PropertyPath>
+                        <PropertyPath>title</PropertyPath>
+                        <PropertyPath>author</PropertyPath>
+                        <PropertyPath>category_ID</PropertyPath>
+                        <PropertyPath>language_code</PropertyPath>
+                        <PropertyPath>stock_code</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <!-- >Fin - Select Filds</!-->
+
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="bookCode" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="title" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="description" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="author" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="category/category" />
+                            <PropertyValue Property="Label" String="{@i18n>category_ID}" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="language_code" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="rating" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="stock_code" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="price" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+
+                <!-- >Inicio - FieldGroup</!-->
+                <Annotation Term="UI.FieldGroup" Qualifier="BooksInformations">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="bookCode" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="title" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="description" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="author" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="category/category" />
+                                    <PropertyValue Property="Label" String="{@i18n>category_ID}" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="language_code" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="rating" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="stock_code" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="price" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <!-- >Fin - FieldGroup</!-->
+
+                <!-- >Inicio - Facet</!-->
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#BooksInformations" />
+                            <PropertyValue Property="Label" String="{@i18n>booksinformations}" />
+                            <PropertyValue Property="ID" String="BooksInformations" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <!-- >Fin - Facet</!-->
+            </Annotations>
+            <!-- >Fin - Items</!-->
+
+            <!-- >Inicio - Acciones Draft Editar/Crear/Modificar</!-->
+            <Annotations Target="BooksSRV.EntityContainer/BooksSet">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="BooksSRV.draftActivate" />
+                        <PropertyValue Property="EditAction" String="BooksSRV.draftEdit" />
+                        <PropertyValue Property="PreparationAction" String="BooksSRV.draftPrepare" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.SideEffects" Qualifier="alwaysFetchMessages">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="SourceEntities">
+                            <Collection>
+                                <NavigationPropertyPath />
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="TargetProperties">
+                            <Collection>
+                                <String>DraftMessages</String>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.BooksSet/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.DraftAdministrativeData/DraftUUID">
+                <Annotation Term="UI.Hidden" Bool="true" />
+                <Annotation Term="Common.Label" String="{@i18n>borradorIdTcnico}" />
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.DraftAdministrativeData/CreationDateTime">
+                <Annotation Term="Common.Label" String="{@i18n>borradorCreadoEl}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.DraftAdministrativeData/CreatedByUser">
+                <Annotation Term="Common.Label" String="{@i18n>borradorCreadoPor}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.DraftAdministrativeData/DraftIsCreatedByMe">
+                <Annotation Term="UI.Hidden" Bool="true" />
+                <Annotation Term="Common.Label" String="{@i18n>borradorCreadoPorM}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.DraftAdministrativeData/LastChangeDateTime">
+                <Annotation Term="Common.Label" String="{@i18n>fechaDelLtimoCambio}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.DraftAdministrativeData/LastChangedByUser">
+                <Annotation Term="Common.Label" String="{@i18n>autorDelLtimoCambio}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.DraftAdministrativeData/InProcessByUser">
+                <Annotation Term="Common.Label" String="{@i18n>borradorEnProcesoPor}" />
+            </Annotations>
+
+            <Annotations Target="BooksSRV.DraftAdministrativeData/DraftIsProcessedByMe">
+                <Annotation Term="UI.Hidden" Bool="true" />
+                <Annotation Term="Common.Label" String="{@i18n>borradorEnProcesoPor}" />
+            </Annotations>
+            <!-- >Fin - Acciones Draft Editar/Crear/Modificar</!-->
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
