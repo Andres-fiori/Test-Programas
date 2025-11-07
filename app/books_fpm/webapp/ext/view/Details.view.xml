@@ -1,0 +1,35 @@
+<mvc:View
+    controllerName="booksfpm.ext.view.Details"
+    xmlns="sap.m"
+    xmlns:uxap="sap.uxap"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:macros="sap.fe.macros"
+>
+    <uxap:ObjectPageLayout>
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle>
+                <uxap:expandedHeading>
+                    <Title
+                        text="{bookCode}"
+                        wrapping="true"
+                    />
+                </uxap:expandedHeading>
+
+                <uxap:expandedContent>
+                    <Text text="{title}" />
+                </uxap:expandedContent>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+        <uxap:ObjectPageSection title="{i18n>booksInformations}">
+           <uxap:subSections>
+            <uxap:ObjectPageSubSection >
+               <uxap:blocks>
+                 <macros:Form id="FieldGroupInformations"
+                             metaPath="@com.sap.vocabularies.UI.v1.FieldGroup#BooksInformations"/>
+               </uxap:blocks>
+            </uxap:ObjectPageSubSection>
+           </uxap:subSections>
+        </uxap:ObjectPageSection>
+    </uxap:ObjectPageLayout>
+</mvc:View>

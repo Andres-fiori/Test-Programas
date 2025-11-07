@@ -17,13 +17,15 @@
   "scripts": {
     "start": "cds-serve",
     "watch-cds": "cds watch --open bookscapcdsannotations/index.html?sap-ui-xx-viewCache=false --livereload false",
-    "watch-xml": "cds watch --open com.logaligroup.booksxmlannotations/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-xml": "cds watch --open com.logaligroup.booksxmlannotations/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-fpm": "cds watch --open booksfpm/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "workspaces": [
     "app/*"
   ],
   "sapux": [
     "app/books_cap_cds_annotations",
-    "app/books_xml_annotations"
+    "app/books_xml_annotations",
+    "app/books_fpm"
   ]
 }
