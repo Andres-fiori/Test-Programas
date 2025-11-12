@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@cap-js/cds-types": "^0.15.0",
+    "@cap-js/sqlite": "^2.0.4",
+    "@sap/cds": "^9.4.4",
+    "express": "^4.21.2",
+    "package.json": "^0.0.0"
+  }
+}
