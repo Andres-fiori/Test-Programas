@@ -1,0 +1,21 @@
+code,symbol,minorUnit,name,descr
+USD,$,2,US Dollar,United States Dollar
+EUR,€,2,Euro,European Union Currency
+JPY,¥,0,Yen,Japanese Yen
+GBP,£,2,Pound Sterling,British Pound Sterling
+CNY,¥,2,Yuan Renminbi,Chinese Yuan Renminbi
+AUD,$,2,Australian Dollar,Australian Dollar
+CAD,$,2,Canadian Dollar,Canadian Dollar
+CHF,CHF,2,Swiss Franc,Swiss Franc
+HKD,$,2,Hong Kong Dollar,Hong Kong Dollar
+SGD,$,2,Singapore Dollar,Singapore Dollar
+INR,₹,2,Indian Rupee,Indian Rupee
+MXN,$,2,Mexican Peso,Mexican Peso
+BRL,R$,2,Brazilian Real,Brazilian Real
+RUB,₽,2,Russian Ruble,Russian Ruble
+KRW,₩,0,Won,South Korean Won
+TRY,₺,2,Turkish Lira,Turkish Lira
+VES,Bs.,2,Bolivar Soberano,Venezuelan Bolivar
+COP,$,2,Colombian Peso,Colombian Peso
+CLP,$,0,Chilean Peso,Chilean Peso
+PEN,S/.,2,Sol,Peruvian Sol

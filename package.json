@@ -1,0 +1,16 @@
+{
+  "name": "products",
+  "version": "1.0.0",
+  "description": "Products - Service OData V4",
+  "dependencies": {
+    "@sap/cds": "^9.4.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "private": true
+}
