@@ -1,13 +1,17 @@
 using {Products as service} from '../service';
 
+using from './annotations-suppliers';
 using from './annotations-productdetails';
 using from './annotations-reviews';
 using from './annotations-inventories';
+using from './annotations-sales';
+
+annotate service.Products with @odata.draft.enabled;
 
 annotate service.Products with {
     product     @title: 'Product';
     productName @title: 'Product Name';
-    description @title: 'Description';
+    description @title: 'Description' @UI.MultiLineText;
     category    @title: 'Category';
     subCategory @title: 'Sub Category';
     supplier    @title: 'Supplier';
@@ -15,6 +19,7 @@ annotate service.Products with {
     rating      @title: 'Rating';
     price       @title: 'Price'     @Measures.ISOCurrency: currency_code;
     currency    @title: 'Currency'  @Common.IsCurrency;
+    image @title: 'Image';
 };
 
 annotate service.Products with {
@@ -68,6 +73,16 @@ annotate service.Products with {
 
 
 annotate service.Products with @(
+    Common.SideEffects: {
+        $Type : 'Common.SideEffectsType',
+        SourceProperties : [
+            supplier_ID
+        ],
+        TargetEntities : [
+            supplier,
+            supplier.contact
+        ],
+    },
     UI.SelectionFields                : [
         product,
         category_ID,
@@ -89,6 +104,10 @@ annotate service.Products with @(
         }
     },
     UI.LineItem                       : [
+        {
+            $Type : 'UI.DataField',
+            Value : image
+        },
         {
             $Type: 'UI.DataField',
             Value: product
@@ -144,6 +163,25 @@ annotate service.Products with @(
         Visualization: #Number,
         Title        : 'Price'
     },
+    UI.FieldGroup #Rating2 : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : rating
+            }
+        ]
+    },
+    UI.FieldGroup #Image: {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : image,
+                Label: ''
+            },
+        ],
+    },
     UI.FieldGroup #CategoryAndSupplier: {
         $Type: 'UI.FieldGroupType',
         Data : [
@@ -173,12 +211,33 @@ annotate service.Products with @(
         $Type: 'UI.FieldGroupType',
         Data : [{
             $Type      : 'UI.DataField',
-            Value      : statu.name,
+            Value      : statu_code,
             Criticality: statu.criticality,
-            Label      : ''
+            Label      : '',
+            @Common.FieldControl : {
+                $edmJson: {
+                    $If: [
+                        {
+                            $Eq: [
+                                {
+                                    $Path: 'IsActiveEntity'
+                                },
+                                false
+                            ]
+                        },
+                        1,
+                        3
+                    ]
+                }
+            }
         }]
     },
     UI.HeaderFacets                   : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target : '@UI.FieldGroup#Image',
+            Label : 'Image'
+        },
         {
             $Type : 'UI.ReferenceFacet',
             Target: '@UI.FieldGroup#CategoryAndSupplier',
@@ -196,7 +255,7 @@ annotate service.Products with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Target: '@UI.DataPoint#Price'
+            Target: '@UI.FieldGroup#Rating2'
         },
         {
             $Type : 'UI.ReferenceFacet',
@@ -205,19 +264,44 @@ annotate service.Products with @(
     ],
     UI.Facets                         : [
         {
+            $Type : 'UI.CollectionFacet',
+            Facets : [
+                {
+                    $Type : 'UI.ReferenceFacet',
+                    Target : 'supplier/@UI.FieldGroup',
+                    Label: 'Supplier Information'
+                },
+                {
+                    $Type : 'UI.ReferenceFacet',
+                    Target : 'supplier/contact/@UI.FieldGroup',
+                    Label : 'Contact information'
+                },
+            ],
+            Label : 'Supplier and Contact'
+        },
+        {
             $Type : 'UI.ReferenceFacet',
             Target: 'detail/@UI.FieldGroup#TechnicalData',
-            Label : 'Technical Data'
+            Label : 'Technical Data',
+            ID : 'detail'
         },
         {
             $Type : 'UI.ReferenceFacet',
             Target: 'toReviews/@UI.LineItem',
-            Label : 'Reviews'
+            Label : 'Reviews',
+            ID : 'toReviews'
         },
         {
             $Type : 'UI.ReferenceFacet',
             Target: 'toInventories/@UI.LineItem',
-            Label : 'Inventory Information'
+            Label : 'Inventory Information',
+            ID : 'toInventories'
         },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target : 'toSales/@UI.Chart',
+            Label : 'Sales',
+            ID : 'toSales'
+        }
     ]
 );

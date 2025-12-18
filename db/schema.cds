@@ -9,6 +9,8 @@ using {
 
 
 entity Products : cuid, managed {
+    image         : LargeBinary @Core.MediaType: imageType @UI.IsImage;
+    imageType     : String      @Core.IsMediaType;
     product       : String(8);
     productName   : String(80);
     description   : LargeString;
@@ -75,7 +77,7 @@ entity Inventories : cuid {
 
 entity Sales : cuid {
     month         : String(20);
-    monthCode: String(2);
+    monthCode     : String(2);
     year          : String(4);
     quantitySales : Integer;
     product       : Association to Products;
