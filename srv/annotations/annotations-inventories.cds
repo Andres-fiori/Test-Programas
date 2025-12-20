@@ -1,13 +1,13 @@
 using {Products as service} from '../service';
 
 annotate service.Inventories with {
-    stockNumber @title: 'Stock Number';
-    department  @title: 'Department';
-    min         @title: 'Min'               @Measures.Unit: baseUnit;
-    max         @title: 'Max'               @Measures.Unit: baseUnit;
-    target      @title: 'Stock'             @Measures.Unit: baseUnit;
-    quantity    @title: 'Ordered Quantity'  @Measures.Unit: baseUnit;
-    baseUnit    @Common.IsUnit;
+    stockNumber  @title: 'Stock Number'      @Common.FieldControl: #ReadOnly;
+    department   @title: 'Department';
+    min          @title: 'Min'               @Measures.Unit      : baseUnit;
+    max          @title: 'Max'               @Measures.Unit      : baseUnit;
+    target       @title: 'Stock'             @Measures.Unit      : baseUnit;
+    quantity     @title: 'Ordered Quantity'  @Measures.Unit      : baseUnit;
+    baseUnit     @Common.IsUnit              @Common.FieldControl: #ReadOnly;
 };
 
 annotate service.Inventories with {
@@ -62,7 +62,13 @@ annotate service.Inventories with @(
         {
             $Type: 'UI.DataField',
             Value: quantity
-        }
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'Products.setStock',
+            Label : 'Set Stock',
+            Inline: true
+        },
     ],
     UI.DataPoint    : {
         $Type                 : 'UI.DataPointType',

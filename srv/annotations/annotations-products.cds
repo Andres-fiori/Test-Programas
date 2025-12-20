@@ -182,6 +182,15 @@ annotate service.Products with @(
             },
         ],
     },
+    UI.FieldGroup #Price: {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : price
+            }
+        ]
+    },
     UI.FieldGroup #CategoryAndSupplier: {
         $Type: 'UI.FieldGroupType',
         Data : [
@@ -247,6 +256,11 @@ annotate service.Products with @(
             $Type : 'UI.ReferenceFacet',
             Target: '@UI.FieldGroup#Description',
             Label : 'Description'
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target : '@UI.FieldGroup#Price',
+            Label : 'Price'
         },
         {
             $Type : 'UI.ReferenceFacet',

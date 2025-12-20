@@ -9,8 +9,8 @@ using {
 
 
 entity Products : cuid, managed {
-    image         : LargeBinary @Core.MediaType: imageType @UI.IsImage;
-    imageType     : String      @Core.IsMediaType;
+    image         : LargeBinary  @Core.MediaType: imageType  @UI.IsImage;
+    imageType     : String       @Core.IsMediaType;
     product       : String(8);
     productName   : String(80);
     description   : LargeString;
@@ -20,7 +20,7 @@ entity Products : cuid, managed {
     price         : Decimal(6, 2);
     rating        : Decimal(3, 2);
     currency      : Association to Currencies; //currency_code
-    detail        : Association to ProductDetails; //detail_ID
+    detail        : Composition of ProductDetails; //detail_ID
     supplier      : Association to Suppliers; //supplier_ID
     toReviews     : Composition of many Reviews
                         on toReviews.product = $self;
@@ -65,12 +65,12 @@ entity Reviews : cuid {
 };
 
 entity Inventories : cuid {
-    stockNumber : String(9);
+    stockNumber : String(12);
     department  : Association to Departments;
     min         : Integer;
     max         : Integer;
     target      : Integer;
-    quantity    : Decimal(4, 3);
+    quantity    : Decimal(6, 3);
     baseUnit    : String default 'EA';
     product     : Association to Products; // product_ID
 };
@@ -110,7 +110,13 @@ entity Status : CodeList {
         criticality : Int16; // 1,2,3,5
 };
 
-
 entity Departments : cuid {
     department : String(60);
 };
+
+entity Options : CodeList {
+    key code : String(10) enum {
+            A = 'Add';
+            D = 'Discount'
+        }
+}

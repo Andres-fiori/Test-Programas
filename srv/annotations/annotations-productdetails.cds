@@ -1,13 +1,13 @@
 using {Products as service} from '../service';
 
 annotate service.ProductDetails with {
-    baseUnit   @title: 'Base Unit';
+    baseUnit   @title: 'Base Unit' @Common.FieldControl : #ReadOnly;
     depth      @title: 'Depth'   @Measures.Unit: unitVolume;
     height     @title: 'Height'  @Measures.Unit: unitVolume;
     width      @title: 'Width'   @Measures.Unit: unitVolume;
     weight     @title: 'Weigth'  @Measures.Unit: unitWeight;
-    unitVolume @Common.IsUnit;
-    unitWeight @Common.IsUnit;
+    unitVolume @Common.IsUnit @Common.FieldControl : #ReadOnly; 
+    unitWeight @Common.IsUnit @Common.FieldControl : #ReadOnly;
 };
 
 annotate service.ProductDetails with @(

@@ -4,7 +4,7 @@
             "previewLimit": 50,
             "driver": "SQLite",
             "name": "Products",
-            "database": "${workspaceFolder:products}/products.sqlite"
+            "database": "${workspaceFolder:C25C389}/products.sqlite"
         }
     ]
 }

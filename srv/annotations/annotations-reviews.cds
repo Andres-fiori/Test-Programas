@@ -2,11 +2,11 @@ using {Products as service} from '../service';
 
 
 annotate service.Reviews with {
-    product    @title: 'Product';
-    reviewText @title: 'Review Text';
-    date       @title: 'Review Date';
-    user       @title: 'User';
-    rating     @title: 'Rating';
+    product     @title: 'Product';
+    reviewText  @title: 'Review Text'  @UI.MultiLineText;
+    date        @title: 'Review Date';
+    user        @title: 'User';
+    rating      @title: 'Rating';
 };
 
 annotate service.Reviews with @(
