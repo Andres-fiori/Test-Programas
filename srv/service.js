@@ -3,9 +3,11 @@ const { SELECT, UPDATE } = require('@sap/cds/lib/ql/cds-ql');
 
 module.exports = class Products extends cds.ApplicationService {
 
-    init () {
+    async init () {
 
-        const {Products, Inventories} = this.entities;
+        const {Products, Inventories, VH_Supplier, VH_BusinessParner, VH_Customer} = this.entities;
+        const bp = await cds.connect.to("API_BUSINESS_PARTNER");
+        const rbp = await cds.connect.to("API_BUSINESS_PARTNER_RM");
 
         //CREATE  --> NEW
         //UPDATE
@@ -13,6 +15,33 @@ module.exports = class Products extends cds.ApplicationService {
         //READ
 
         //before,on,after
+
+        this.on('READ', VH_Supplier, async (req) => {
+            return await bp.tx(req).send({
+                query: req.query,
+                headers: {
+                    apikey: process.env.APIKEY
+                }
+            });
+        });
+
+        this.on('READ', VH_BusinessParner, async (req) => {
+            return await bp.tx(req).send({
+                query: req.query,
+                headers: {
+                    apikey: process.env.APIKEY
+                }
+            });
+        });
+
+        this.on('READ', VH_Customer, async (req) => {
+            return await rbp.tx(req).send({
+                query: req.query,
+                headers: {
+                    Authorization: process.env.Authorization
+                }
+            });
+        });
 
         this.before('NEW', Products.drafts, async (req) => {
             req.data.detail??= {

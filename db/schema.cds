@@ -7,6 +7,8 @@ using {
     sap.common.CodeList
 } from '@sap/cds/common';
 
+using {API_BUSINESS_PARTNER as bp} from '../srv/external/API_BUSINESS_PARTNER';
+
 
 entity Products : cuid, managed {
     image         : LargeBinary  @Core.MediaType: imageType  @UI.IsImage;
@@ -22,6 +24,7 @@ entity Products : cuid, managed {
     currency      : Association to Currencies; //currency_code
     detail        : Composition of ProductDetails; //detail_ID
     supplier      : Association to Suppliers; //supplier_ID
+    rsupplier     : Association to bp.A_Supplier;           //rsupplier - rsupplier_Supplier
     toReviews     : Composition of many Reviews
                         on toReviews.product = $self;
     toInventories : Composition of many Inventories

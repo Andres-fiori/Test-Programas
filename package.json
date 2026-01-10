@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Products - Service OData V4",
   "dependencies": {
+    "@sap-cloud-sdk/connectivity": "^4.3.1",
+    "@sap-cloud-sdk/http-client": "^4.3.1",
+    "@sap-cloud-sdk/resilience": "^4.3.1",
     "@sap/cds": "^9.4.5",
     "express": "^4.21.2"
   },
@@ -12,5 +15,23 @@
   "scripts": {
     "start": "cds-serve"
   },
-  "private": true
+  "private": true,
+  "cds": {
+    "requires": {
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "credentials": {
+          "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+        }
+      },
+      "API_BUSINESS_PARTNER_RM": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER_RM",
+        "credentials": {
+          "url":"http://s4h22.sap4practice.com:8007/sap/opu/odata/sap/API_BUSINESS_PARTNER/"
+        }
+      }
+    }
+  }
 }

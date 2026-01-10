@@ -5,3 +5,4 @@ using from './annotations-subcategories';
 using from './annotations-status';
 using from './annotations-departments';
 using from './annotations-forms';
+using from './annotations-vhsuppliers';

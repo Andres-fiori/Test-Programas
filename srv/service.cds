@@ -1,4 +1,6 @@
 using {com.logaligroup as entities} from '../db/schema';
+using {API_BUSINESS_PARTNER as bp} from './external/API_BUSINESS_PARTNER';
+using {API_BUSINESS_PARTNER_RM as rbp} from './external/API_BUSINESS_PARTNER_RM';
 
 service Products {
 
@@ -68,5 +70,28 @@ service Products {
 
     @readonly
     entity VH_Options       as projection on entities.Options;
+
+    /** Services OData - Remote */
+
+    @readonly
+    entity VH_Supplier as projection on bp.A_Supplier {
+        key Supplier,
+            SupplierFullName as FullName,
+            SupplierName
+    };
+
+    @readonly
+    entity VH_BusinessParner as projection on bp.A_BusinessPartner {
+        key BusinessPartner,
+            PersonFullName,
+            NameCountry
+    };
+
+    @readonly
+    entity VH_Customer as projection on rbp.A_Customer {
+        key Customer,
+            CustomerFullName,
+            CustomerName
+    };
 
 }
