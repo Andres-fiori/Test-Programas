@@ -1,0 +1,196 @@
+<mvc:View
+    xmlns:form="sap.ui.layout.form"
+    controllerName="products.ext.view.Details"
+    xmlns="sap.m"
+    xmlns:uxap="sap.uxap"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:macros="sap.fe.macros"
+>
+    <uxap:ObjectPageLayout>
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle
+                id="ObjectPageDynamicHeaderTitle"
+            >
+                <uxap:expandedHeading>
+                    <Title
+                        id="TitleExpandedHeading"
+                        text="{productName}"
+                    />
+                </uxap:expandedHeading>
+
+                <uxap:expandedContent>
+                    <Title
+                        id="TextExpandedContent"
+                        text="{productName}"
+                    />
+                </uxap:expandedContent>
+
+                <uxap:snappedHeading>
+                    <Title
+                        id="TitleSnappedHeading"
+                        text="{productName}"
+                    />
+                </uxap:snappedHeading>
+
+                <uxap:snappedContent>
+                    <Text
+                        id="TextSnappedContent"
+                        text="{productName}"
+                    />
+                </uxap:snappedContent>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:sections />
+
+        <uxap:headerContent>
+            <FlexBox
+                id="HeaderContent"
+                justifyContent="Start"
+            >
+                <items>
+                    <VBox id="ContainerA">
+                        <Title id="ImageTitle" />
+                        <HBox
+                            id="Image"
+                            class="sapUiSmallMarginEnd"
+                        >
+                            <macros:Form
+                                id="HeaderFacetA"
+                                metaPath="/ProductSet/@com.sap.vocabularies.UI.v1.FieldGroup#Details"
+                            />
+                        </HBox>
+                    </VBox>
+
+                    <VBox id="ContainerB">
+                        <Title
+                            id="ProductDescriptionTitle"
+                            text="{i18n>productDescription}"
+                        />
+                        <HBox
+                            id="ProductDescription"
+                            class="sapUiSmallMarginEnd"
+                        >
+                            <macros:Form
+                                id="HeaderFacetC"
+                                metaPath="/ProductSet/@com.sap.vocabularies.UI.v1.FieldGroup#Details3"
+                            />
+                        </HBox>
+                    </VBox>
+
+                    <VBox id="ContainerC">
+                        <Title
+                            id="SupplierAndCategoryTitle"
+                            text="{i18n>price}"
+                        />
+                        <HBox
+                            id="SupplierAndCategory"
+                            class="sapUiSmallMarginEnd"
+                        >
+                            <macros:Form
+                                id="HeaderFacetB"
+                                metaPath="/ProductSet/@com.sap.vocabularies.UI.v1.FieldGroup#Details2"
+                            />
+                        </HBox>
+                    </VBox>
+
+                    <VBox id="ContainerD">
+                        <Title
+                            id="StatuTitle"
+                            text="{i18n>status}"
+                        />
+                        <HBox
+                            id="Status"
+                            class="sapUiSmallMarginEnd"
+                        >
+                            <macros:Form
+                                id="HeaderFacetD"
+                                metaPath="/ProductSet/@com.sap.vocabularies.UI.v1.FieldGroup#Details4"
+                            />
+                        </HBox>
+                    </VBox>
+                </items>
+            </FlexBox>
+        </uxap:headerContent>
+
+        <uxap:ObjectPageSection
+            id="ObjectPageSection"
+            title="{i18n>productInformation}"
+        >
+            <uxap:ObjectPageSubSection
+                id="ProductInformation"
+                title="{i18n>productInformation}"
+            >
+                <uxap:blocks>
+                    <macros:Form
+                        id="HeaderFacetE"
+                        metaPath="/ProductSet/@com.sap.vocabularies.UI.v1.FieldGroup#ProductInformation"
+                    />
+                </uxap:blocks>
+            </uxap:ObjectPageSubSection>
+            <uxap:ObjectPageSubSection
+                id="descriptionProducts"
+                title="{i18n>productDescription}"
+            >
+                <uxap:blocks>
+                    <macros:Form
+                        id="productsDescription"
+                        metaPath="/ProductSet/@com.sap.vocabularies.UI.v1.FieldGroup#description"
+                    />
+                </uxap:blocks>
+            </uxap:ObjectPageSubSection>
+        </uxap:ObjectPageSection>
+
+        <uxap:ObjectPageSection
+            id="productDetails"
+            title="{i18n>productInformation}"
+        >
+            <uxap:subSections>
+                <uxap:ObjectPageSubSection
+                    id="DetailsAditional"
+                    title="{i18n>detailsAditional}"
+                >
+                    <uxap:blocks>
+                        <macros:Form
+                            id="detailFieldGroup"
+                            metaPath="/ProductSet/@com.sap.vocabularies.UI.v1.FieldGroup#DetailsAditional"
+                        />
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+        </uxap:ObjectPageSection>
+
+        <uxap:ObjectPageSection
+            id="Reviews"
+            title="{i18n>reviews}"
+        >
+            <uxap:subSections>
+                <uxap:ObjectPageSubSection id="reviewsSubSection">
+                    <uxap:blocks>
+                        <macros:Table
+                            id="reviewsFieldGroup"
+                            metaPath="/ProductSet/@com.sap.vocabularies.UI.v1.LineItem"
+                        />
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+        </uxap:ObjectPageSection>
+
+        <uxap:ObjectPageSection
+            id="Inventory"
+            title="{i18n>inventoryInformation}"
+        >
+            <uxap:subSections>
+                <uxap:ObjectPageSubSection id="inventoryInformation">
+                    <uxap:blocks>
+                        <macros:Table
+                            id="inventoryFieldGroup"
+                            metaPath="/ProductSet/@com.sap.vocabularies.UI.v1.LineItem"
+                        />
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+        </uxap:ObjectPageSection>
+    </uxap:ObjectPageLayout>
+</mvc:View>
