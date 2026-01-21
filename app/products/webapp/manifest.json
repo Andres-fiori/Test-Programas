@@ -43,7 +43,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.139.0",
       "libs": {
@@ -87,6 +87,11 @@
           "name": "ProductsMain",
           "pattern": ":?query:",
           "target": "ProductsMain"
+        },
+        {
+          "name": "ProductsProductsObjectPagePage",
+          "pattern": "Products({ProductsKey}):?query:",
+          "target": "ProductsProductsObjectPagePage"
         }
       ],
       "targets": {
@@ -96,9 +101,27 @@
           "name": "sap.fe.core.fpm",
           "options": {
             "settings": {
-              "navigation": {},
+              "navigation": {
+                "Products": {
+                  "detail": {
+                    "route": "ProductsProductsObjectPagePage"
+                  }
+                }
+              },
               "contextPath": "/Products",
               "viewName": "products.ext.main.Main"
+            }
+          }
+        },
+        "ProductsProductsObjectPagePage": {
+          "type": "Component",
+          "id": "ProductsProductsObjectPagePage",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "navigation": {},
+              "contextPath": "/Products",
+              "viewName": "products.ext.view.ProductsObjectPage"
             }
           }
         }
@@ -109,5 +132,6 @@
     "app": {
       "enableLazyLoading": true
     }
-  }
+  },
+  "sap.fiori": {}
 }

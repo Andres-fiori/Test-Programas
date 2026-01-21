@@ -24,11 +24,11 @@ annotate services.Products with {
 };
 
 annotate services.Products with {
-    statu       @Common: {
+    statu            @Common: {
         Text           : statu.name,
         TextArrangement: #TextOnly
     };
-    supplier    @Common: {
+    supplier         @Common: {
         Text           : supplier.supplierName,
         TextArrangement: #TextOnly,
         ValueList      : {
@@ -44,9 +44,9 @@ annotate services.Products with {
     supplierExternal @Common: {
         Text           : supplierExternal.SupplierFullName,
         TextArrangement: #TextOnly,
-        ValueList: {
-             $Type         : 'Common.ValueListType',
-             CollectionPath: 'VH_Supplier',
+        ValueList      : {
+            $Type         : 'Common.ValueListType',
+            CollectionPath: 'VH_Supplier',
             Parameters    : [{
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: supplierExternal_Supplier,
@@ -54,7 +54,7 @@ annotate services.Products with {
             }]
         }
     };
-    category    @Common: {
+    category         @Common: {
         Text           : category.category,
         TextArrangement: #TextOnly,
         ValueList      : {
@@ -67,7 +67,7 @@ annotate services.Products with {
             }]
         }
     };
-    subCategory @Common: {
+    subCategory      @Common: {
         Text           : subCategory.subCategory,
         TextArrangement: #TextOnly,
         ValueList      : {
@@ -205,10 +205,6 @@ annotate services.Products with @(
             {
                 $Type: 'UI.DataField',
                 Value: supplier_ID
-            },
-            {
-                $Type: 'UI.DataField',
-                Value: supplierExternal_Supplier
             }
         ],
     },
@@ -217,7 +213,7 @@ annotate services.Products with @(
         Data : [{
             $Type: 'UI.DataField',
             Value: description,
-            Label: ''
+            Label: 'Description'
         }],
     },
     UI.FieldGroup #GroupC          : {
