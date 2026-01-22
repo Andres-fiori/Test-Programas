@@ -47,7 +47,7 @@
                 justifyContent="Start"
             >
                 <items>
-                <!--ContainerA-->
+                    <!--ContainerA-->
                     <VBox id="ContainerA">
                         <Title id="ImageTitle" />
 
@@ -61,9 +61,12 @@
                             />
                         </HBox>
                     </VBox>
-                <!--ContainerB-->
+                    <!--ContainerB-->
                     <VBox id="ContainerB">
-                        <Title id="SupplierAndCategoryTitle" />
+                        <Title
+                            id="SupplierAndCategoryTitle"
+                            text="{i18n>suppliers}"
+                        />
 
                         <HBox
                             id="Suppliers"
@@ -75,10 +78,12 @@
                             />
                         </HBox>
                     </VBox>
-                <!--ContainerC-->
+                    <!--ContainerC-->
                     <VBox id="ContainerC">
-                        <Title id="ProductDescriptionTitle" />
-
+                        <Title
+                            id="ProductDescriptionTitle"
+                            text="{i18n>description}"
+                        />
                         <HBox
                             id="ProductDescription"
                             class="sapUiSmallMarginEnd"
@@ -89,37 +94,121 @@
                             />
                         </HBox>
                     </VBox>
-                <!--ContainerD
+                    <!--ContainerD-->
                     <VBox id="ContainerD">
-                        <Title id="SupplierAndCategoryTitle" />
+                        <Title
+                            id="StatuTitle"
+                            text="{i18n>status}"
+                        />
 
                         <HBox
-                            id="Suppliers"
+                            id="Status"
                             class="sapUiSmallMarginEnd"
                         >
                             <macros:Form
                                 id="HeaderFacetD"
-                                metaPath="/Products/@com.sap.vocabularies.UI.v1.FieldGroup#GroupA"
+                                metaPath="/Products/@com.sap.vocabularies.UI.v1.FieldGroup#GroupD"
                             />
                         </HBox>
                     </VBox>
-                ContainerE
+                    <!--ContainerE-->
                     <VBox id="ContainerE">
-                        <Title id="SupplierAndCategoryTitle" />
+                        <Title
+                            id="PriceTitle"
+                            text="{i18n>price}"
+                        />
 
                         <HBox
-                            id="Suppliers"
+                            id="Price"
                             class="sapUiSmallMarginEnd"
                         >
                             <macros:Form
                                 id="HeaderFacetE"
-                                metaPath="/Products/@com.sap.vocabularies.UI.v1.FieldGroup#GroupA"
+                                metaPath="/Products/@com.sap.vocabularies.UI.v1.FieldGroup#GroupC"
                             />
                         </HBox>
-                    </VBox>-->
-
+                    </VBox>
                 </items>
             </FlexBox>
         </uxap:headerContent>
+
+        <uxap:ObjectPageSection
+            id="ObjectPageSection"
+            title="{i18n>supplierInformation}"
+        >
+            <uxap:subSections>
+                <uxap:ObjectPageSubSection
+                    id="SupplierIformation"
+                    title="{i18n>information}"
+                >
+                    <uxap:blocks>
+                        <macros:Form
+                            id="supplierInformation"
+                            metaPath="/Products/@com.sap.vocabularies.UI.v1.FieldGroup#GroupE"
+                        />
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+
+                <uxap:ObjectPageSubSection
+                    id="ContactInformation"
+                    title="{i18n>contact}"
+                >
+                    <uxap:blocks>
+                        <macros:Form
+                            id="contactInformation"
+                            metaPath="/Products/@com.sap.vocabularies.UI.v1.FieldGroup#GroupF"
+                        />
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+        </uxap:ObjectPageSection>
+
+        <uxap:ObjectPageSection
+            id="productDetails"
+            title="{i18n>productInformation}"
+        >
+            <uxap:subSections>
+                <uxap:ObjectPageSubSection id="details">
+                    <uxap:blocks>
+                        <macros:Form
+                            id="detailFieldGroup"
+                            metaPath="/Products/detail/@com.sap.vocabularies.UI.v1.FieldGroup#ProductDetails"
+                        />
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+        </uxap:ObjectPageSection>
+
+        <uxap:ObjectPageSection
+            id="reviews"
+            title="{i18n>reviews}"
+        >
+            <uxap:subSections>
+                <uxap:ObjectPageSubSection id="reviewsSubSection">
+                    <uxap:blocks>
+                        <macros:Table
+                            id="reviewsFieldGroup"
+                            metaPath="/Products/toReviews/@com.sap.vocabularies.UI.v1.LineItem"
+                        />
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+        </uxap:ObjectPageSection>
+
+        <uxap:ObjectPageSection
+            id="inventory"
+            title="{i18n>inventoryInformation}"
+        >
+            <uxap:subSections>
+                <uxap:ObjectPageSubSection id="inventoryInformation">
+                    <uxap:blocks>
+                        <macros:Table
+                            id="inventoryFieldGroup"
+                            metaPath="/Products/toInventories/@com.sap.vocabularies.UI.v1.LineItem"
+                        />
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+        </uxap:ObjectPageSection>
     </uxap:ObjectPageLayout>
 </mvc:View>

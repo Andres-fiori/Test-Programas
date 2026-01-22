@@ -196,24 +196,23 @@ annotate services.Products with @(
         Data : [
             {
                 $Type: 'UI.DataField',
+                Value: supplier_ID
+            },
+            {
+                $Type: 'UI.DataField',
                 Value: category_ID
             },
             {
                 $Type: 'UI.DataField',
                 Value: subCategory_ID
-            },
-            {
-                $Type: 'UI.DataField',
-                Value: supplier_ID
             }
         ],
     },
     UI.FieldGroup #GroupB          : {
         $Type: 'UI.FieldGroupType',
         Data : [{
-            $Type: 'UI.DataField',
-            Value: description,
-            Label: 'Description'
+            $Type       : 'UI.DataField',
+            Value       : description
         }],
     },
     UI.FieldGroup #GroupC          : {
@@ -240,6 +239,38 @@ annotate services.Products with @(
                 3
             ]}}
         }],
+    },
+    UI.FieldGroup #GroupE          : {
+        $Type: 'UI.FieldGroupType',
+        Data : 
+            [{
+            $Type: 'UI.DataField',
+            Value: supplier.supplier
+            },
+            {
+            $Type: 'UI.DataField',
+            Value: supplier.supplierName   
+            },
+            {
+            $Type: 'UI.DataField',
+            Value: supplier.webAddress
+            }]
+    },
+    UI.FieldGroup #GroupF          : {
+        $Type: 'UI.FieldGroupType',
+        Data : 
+            [{
+            $Type: 'UI.DataField',
+            Value: supplier.contact.fullName
+            },
+            {
+            $Type: 'UI.DataField',
+            Value: supplier.contact.email
+            },
+            {
+            $Type: 'UI.DataField',
+            Value: supplier.contact.phoneNumber
+            }]
     },
     UI.HeaderFacets                : [
         {

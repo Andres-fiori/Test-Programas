@@ -1,19 +1,24 @@
 using {ProductSRV as service} from '../service';
 
 annotate service.ProductDetails with {
-    width      @title: 'Width'   @Measures.Unit: unitVolume;
-    height     @title: 'Heigth'  @Measures.Unit: unitVolume;
-    depth      @title: 'Depth'   @Measures.Unit: unitVolume;
-    weight     @title: 'Weight'  @Measures.Unit: unitWeight;
-    baseUnit   @Common.IsUnit @Common.FieldControl: #ReadOnly;
-    unitVolume @Common.IsUnit @Common.FieldControl: #ReadOnly;
-    unitWeight @Common.IsUnit @Common.FieldControl: #ReadOnly;
+    width       @title: 'Width'     @Measures.Unit      : unitVolume;
+    height      @title: 'Heigth'    @Measures.Unit      : unitVolume;
+    depth       @title: 'Depth'     @Measures.Unit      : unitVolume;
+    weight      @title: 'Weight'    @Measures.Unit      : unitWeight;
+    baseUnit    @Common.IsUnit      @Common.FieldControl: #ReadOnly;
+    unitVolume  @Common.IsUnit      @Common.FieldControl: #ReadOnly;
+    unitWeight  @Common.IsUnit      @Common.FieldControl: #ReadOnly;
 };
 
 annotate service.ProductDetails with @(
     UI.FieldGroup #ProductDetails: {
         $Type: 'UI.FieldGroupType',
         Data : [
+            {
+                $Type: 'UI.DataField',
+                Value: baseUnit,
+                Label: 'Base Unit'
+            },
             {
                 $Type: 'UI.DataField',
                 Value: width,
