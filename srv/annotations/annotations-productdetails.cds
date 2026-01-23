@@ -1,6 +1,7 @@
 using {ProductSRV as service} from '../service';
 
 annotate service.ProductDetails with {
+    baseUnit    @title: 'BaseUnit'  @Common.Label       : #ReadOnly;
     width       @title: 'Width'     @Measures.Unit      : unitVolume;
     height      @title: 'Heigth'    @Measures.Unit      : unitVolume;
     depth       @title: 'Depth'     @Measures.Unit      : unitVolume;
@@ -17,7 +18,6 @@ annotate service.ProductDetails with @(
             {
                 $Type: 'UI.DataField',
                 Value: baseUnit,
-                Label: 'Base Unit'
             },
             {
                 $Type: 'UI.DataField',
