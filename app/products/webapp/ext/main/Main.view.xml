@@ -1,0 +1,38 @@
+<mvc:View
+    controllerName="products.ext.main.Main"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:macros="sap.fe.macros"
+>
+    <f:DynamicPage id="DynamicPage">
+        <f:title>
+            <f:DynamicPageTitle id="DynamicPageTitle">
+                <f:heading>
+                    <Title
+                        id="Title"
+                        text="{i18n>appTitle}"
+                    />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+            <f:DynamicPageHeader id="DynamicPageHeader">
+                <macros:FilterBar
+                    id="Filter"
+                    metaPath="@com.sap.vocabularies.UI.v1.SelectionFields"
+                />
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+            <macros:Table
+                id="Table"
+                metaPath="@com.sap.vocabularies.UI.v1.LineItem"
+                filterBar="Filter"
+            />
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

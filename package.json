@@ -18,11 +18,18 @@
   "devDependencies": {
     "@cap-js/cds-types": "^0.11.0",
     "@cap-js/sqlite": "^2",
-    "@sap/cds-dk": "^9.2.0"
+    "@sap/cds-dk": "^9.2.0",
+    "cds-plugin-ui5": "^0.13.0",
+    "rimraf": "^5.0.5",
+    "mbt": "^1.2.29"
   },
   "scripts": {
     "start": "cds-serve",
-    "dev": "cds-serve --profile dev"
+    "dev": "cds-serve --profile dev",
+    "watch-products": "cds watch --open products/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "undeploy": "cf undeploy b25c365 --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
   },
   "cds": {
     "fiori": {
@@ -52,5 +59,11 @@
         }
       }
     }
-  }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/products"
+  ]
 }

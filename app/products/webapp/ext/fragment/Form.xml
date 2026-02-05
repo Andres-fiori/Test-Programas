@@ -1,0 +1,69 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:macros="sap.fe.macros"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog id="dialogForm">
+        <content>
+            <f:SimpleForm id="simpleForm">
+                <f:content>
+                    <Label
+                        id="lYear"
+                        text="{i18n>year}"
+                        required="true"
+                    />
+                    <ComboBox
+                        id="comboboxYear"
+                        items="{/VH_Years}"
+                    >
+                        <core:Item
+                            key="{ID}"
+                            text="{year}"
+                        />
+                    </ComboBox>
+                    <Label
+                        id="lMonth"
+                        text="{i18n>month}"
+                        required="true"
+                    />
+                    <ComboBox
+                        id="comboboxMonth"
+                        items="{/VH_Months}"
+                        showSecondaryValues="true"
+                    >
+                        <core:ListItem
+                            key="{code}"
+                            text="{descr}"
+                            additionalText="{code}"
+                        />
+                    </ComboBox>
+                    <Label
+                        id="lQuantity"
+                        text="{i18n>quantity}"
+                        required="true"
+                    />
+                    <Input id="inputQuantity" />
+                </f:content>
+            </f:SimpleForm>
+        </content>
+        <beginButton>
+            <Button
+                id="save"
+                text="{i18n>save}"
+                press="onSaveSales"
+                type="Accept"
+                width="4rem"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="cancel"
+                text="{i18n>cancel}"
+                press="onCancelSales"
+                type="Reject"
+                width="4rem"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
