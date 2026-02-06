@@ -1,0 +1,3 @@
+destinations='[{"name":"304_FPM","url":"https://304_FPM.dest","proxyHost":"http://127.0.0.1","proxyPort":"8887"}]'
+cds_requires='{"304_FPM":{"credentials":{"destination":"304_FPM","path":"/odata/v4/logali-group"}},"auth":{"strategy":"dummy","kind":"dummy"},"messaging":{"kind":"local-messaging"}}'
+VCAP_SERVICES='{}'

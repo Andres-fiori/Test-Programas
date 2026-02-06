@@ -4,14 +4,14 @@
     xmlns:form="sap.ui.layout.form"
 >
     <Popover
-        id="popover"
+        id="Popover"
         placement="Bottom"
     >
         <content>
             <form:SimpleForm id="formDetails">
                 <Label
                     id="labelYear"
-                    text="Year36"
+                    text="Year"
                 />
                 <Text
                     id="textYear"

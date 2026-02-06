@@ -1,69 +1,74 @@
 {
-  "name": "b25c365",
-  "version": "1.0.0",
-  "description": "Máster SAP BTP - Cloud Application Programming Model",
-  "repository": "",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {
-    "@cap-js/hana": "^2.1.2",
-    "@sap-cloud-sdk/connectivity": "^3.26.4",
-    "@sap-cloud-sdk/http-client": "^3.26.4",
-    "@sap-cloud-sdk/resilience": "^3.26.4",
-    "@sap/cds": "^9.2.0",
-    "@sap/xssec": "^4.9.1",
-    "dotenv": "^17.2.1",
-    "express": "^4.21.2"
-  },
-  "devDependencies": {
-    "@cap-js/cds-types": "^0.11.0",
-    "@cap-js/sqlite": "^2",
-    "@sap/cds-dk": "^9.2.0",
-    "cds-plugin-ui5": "^0.13.0",
-    "rimraf": "^5.0.5",
-    "mbt": "^1.2.29"
-  },
-  "scripts": {
-    "start": "cds-serve",
-    "dev": "cds-serve --profile dev",
-    "watch-products": "cds watch --open products/index.html?sap-ui-xx-viewCache=false --livereload false",
-    "undeploy": "cf undeploy b25c365 --delete-services --delete-service-keys --delete-service-brokers",
-    "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
-  },
-  "cds": {
-    "fiori": {
-      "preview": true
-    },
-    "server": {
-      "index": true
-    },
-    "requires": {
-      "[production]": {
-        "db": "hana",
-        "auth": "xsuaa",
-        "API_BUSINESS_PARTNER": {
-          "kind": "odata-v2",
-          "model": "srv/external/API_BUSINESS_PARTNER",
-          "credentials": {
-            "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER"
-          }
-        },
-        "API_BUSINESS_PARTNER_ONPREMISE": {
-          "kind": "odata-v2",
-          "model": "srv/external/API_BUSINESS_PARTNER_ONPREMISE",
-          "credentials": {
-            "destination": "S4HANA22",
-            "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
-          }
-        }
-      }
-    }
-  },
-  "workspaces": [
-    "app/*"
-  ],
-  "sapux": [
-    "app/products"
-  ]
+	"name": "b25c365",
+	"version": "1.0.0",
+	"description": "Máster SAP BTP - Cloud Application Programming Model",
+	"repository": "",
+	"license": "UNLICENSED",
+	"private": true,
+	"dependencies": {
+		"@cap-js/hana": "^2.1.2",
+		"@sap-cloud-sdk/connectivity": "^3.26.4",
+		"@sap-cloud-sdk/http-client": "^3.26.4",
+		"@sap-cloud-sdk/resilience": "^3.26.4",
+		"@sap/cds": "^9.2.0",
+		"@sap/xssec": "^4.9.1",
+		"dotenv": "^17.2.1",
+		"express": "^4.21.2"
+	},
+	"devDependencies": {
+		"@cap-js/cds-types": "^0.11.0",
+		"@cap-js/sqlite": "^2",
+		"@sap/cds-dk": "^9.2.0",
+		"cds-plugin-ui5": "^0.13.0",
+		"rimraf": "^5.0.5",
+		"mbt": "^1.2.29",
+		"@sap/dev-cap-tools": "^1.31.0"
+	},
+	"scripts": {
+		"start": "cds-serve",
+		"dev": "cds-serve --profile dev",
+		"watch-products": "cds watch --open products/index.html?sap-ui-xx-viewCache=false --livereload false",
+		"undeploy": "cf undeploy b25c365 --delete-services --delete-service-keys --delete-service-brokers",
+		"build": "rimraf resources mta_archives && mbt build --mtar archive",
+		"deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+	},
+	"cds": {
+		"fiori": {
+			"preview": true
+		},
+		"server": {
+			"index": true
+		},
+		"requires": {
+			"[production]": {
+				"db": "hana",
+				"auth": "xsuaa",
+				"API_BUSINESS_PARTNER": {
+					"kind": "odata-v2",
+					"model": "srv/external/API_BUSINESS_PARTNER",
+					"credentials": {
+						"url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+					}
+				},
+				"API_BUSINESS_PARTNER_ONPREMISE": {
+					"kind": "odata-v2",
+					"model": "srv/external/API_BUSINESS_PARTNER_ONPREMISE",
+					"credentials": {
+						"destination": "S4HANA22",
+						"path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+					}
+				}
+			},
+			"_04_FPM": {
+				"kind": "odata",
+				"model": "srv/external/304_FPM"
+			}
+		}
+	},
+	"workspaces": [
+		"app/*"
+	],
+	"sapux": [
+		"app/products"
+	]
 }

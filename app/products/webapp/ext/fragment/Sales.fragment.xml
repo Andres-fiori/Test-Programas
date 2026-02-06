@@ -7,7 +7,7 @@
         <macros:Chart
             id="chart"
             metaPath="@com.sap.vocabularies.UI.v1.Chart"
-            contextPath="/Products/toSales"
+            contextPath="/Sales"
             personalization="Sort,Type,Item,Filter"
 			selectionMode="Single"
 			selectionChange=".extension.products.ext.controller.ProductObjectPage.onSelectionChange"

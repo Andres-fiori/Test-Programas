@@ -47,7 +47,7 @@
                 </f:content>
             </f:SimpleForm>
         </content>
-        <beginButton>
+        <!--<beginButton>
             <Button
                 id="save"
                 text="{i18n>save}"
@@ -64,6 +64,6 @@
                 type="Reject"
                 width="4rem"
             />
-        </endButton>
+        </endButton>-->
     </Dialog>
 </core:FragmentDefinition>
