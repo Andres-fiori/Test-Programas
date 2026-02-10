@@ -32,6 +32,7 @@ entity Products : cuid, managed {
                                    on toInventories.product = $self;
         toSales          : Composition of many Sales
                                    on toSales.product = $self;
+        
 };
 
 entity Suppliers : cuid {
@@ -72,6 +73,7 @@ entity Sales : cuid {
         quantitySales : Integer;
         year          : String(4);
         product       : Association to Products;
+        
 };
 
 

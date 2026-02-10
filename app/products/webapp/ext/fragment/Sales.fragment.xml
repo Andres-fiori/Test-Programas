@@ -4,6 +4,17 @@
     xmlns:macros="sap.fe.macros"
 >
     <VBox id="ContainerChart">
+        
+                 <!-- Toolbar propia -->
+        <Toolbar>
+        <ToolbarSpacer />
+            <Button
+                text="Open Dialog"
+                type="Transparent"
+                press=".extension.products.ext.controller.ProductObjectPage.onOpenDialog" 
+                icon="sap-icon://action"/>
+        </Toolbar>
+
         <macros:Chart
             id="chart"
             metaPath="@com.sap.vocabularies.UI.v1.Chart"
