@@ -1,27 +1,18 @@
-<core:FragmentDefinition
-    xmlns="sap.m"
-    xmlns:core="sap.ui.core"
-    xmlns:macros="sap.fe.macros"
->
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:macros="sap.fe.macros">
     <VBox id="ContainerChart">
-        
-                 <!-- Toolbar propia -->
+        <!-- Toolbar propia -->
         <Toolbar>
-        <ToolbarSpacer />
-            <Button
-                text="Open Dialog"
-                type="Transparent"
-                press=".extension.products.ext.controller.ProductObjectPage.onOpenDialog" 
-                icon="sap-icon://action"/>
+            <ToolbarSpacer/>
+            <Button text="Open Dialog" 
+                    type="Transparent" 
+                    press=".extension.products.ext.controller.ProductObjectPage.onOpenDialog" 
+                    icon="sap-icon://action"/>
         </Toolbar>
-
-        <macros:Chart
-            id="chart"
-            metaPath="@com.sap.vocabularies.UI.v1.Chart"
-            contextPath="/Sales"
-            personalization="Sort,Type,Item,Filter"
-			selectionMode="Single"
-			selectionChange=".extension.products.ext.controller.ProductObjectPage.onSelectionChange"
-        />
+        <macros:Chart id="chart" 
+        metaPath="@com.sap.vocabularies.UI.v1.Chart" 
+        contextPath="/Sales" 
+        personalization="Sort,Type,Item,Filter" 
+        selectionMode="Single" 
+        selectionChange=".extension.products.ext.controller.ProductObjectPage.onSelectionChange"/>
     </VBox>
 </core:FragmentDefinition>

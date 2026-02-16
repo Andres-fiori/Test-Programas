@@ -32,7 +32,7 @@ entity Products : cuid, managed {
                                    on toInventories.product = $self;
         toSales          : Composition of many Sales
                                    on toSales.product = $self;
-        
+
 };
 
 entity Suppliers : cuid {
@@ -67,15 +67,29 @@ entity Inventories : cuid {
         product     : Association to Products;
 };
 
-entity Sales : cuid {
+/*entity Sales : cuid {
         monthCode     : String(3);
         month         : String(20);
         quantitySales : Integer;
         year          : String(4);
         product       : Association to Products;
-        
-};
 
+};*/
+entity Sales : cuid {
+
+        @Analytics.Dimension
+        year          : String(4);
+
+        @Analytics.Dimension
+        month         : String(20);
+
+        monthCode     : String(3);
+
+        @Analytics.Measure
+        quantitySales : Integer;
+
+        product       : Association to Products;
+};
 
 entity ProductDetails : cuid {
         baseUnit   : String default 'EA';

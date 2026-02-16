@@ -82,11 +82,6 @@ service ProductSRV {
                 Customer
         };
 
-    /*action setSales(productId: UUID,
-                    year: String(4),
-                    month: String(3),
-                    quantity: Integer);*/
-
     /** Value Help */
     @readonly
     entity VH_Categories     as projection on entities.Categories;

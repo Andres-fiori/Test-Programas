@@ -4,68 +4,64 @@
     xmlns:macros="sap.fe.macros"
     xmlns:f="sap.ui.layout.form"
 >
-    <Dialog
-        id="dialogForm"
-        title="{i18n>cargadeventas}"
-        class="sapUiContentPadding"
-    >
+    <Dialog id="dialogForm">
         <content>
-            <f:SimpleForm editable="true">
-                <Label
-                    text="{i18n>year}"
-                    required="true"
-                />
-
-                <ComboBox
-                    id="comboboxYear"
-                    items="{/VH_Years}"
-                    selectedKey="{
-                    path: 'form>/year',
-                    type: 'sap.ui.model.type.String',
-                    constraints: {
-                        minLength: 4
-                    }}"
-                >
-                    <core:Item
-                        key="{ID}"
-                        text="{year}"
+            <f:SimpleForm id="simpleForm">
+                <f:content>
+                    <Label
+                        id="lYear"
+                        text="{i18n>year}"
+                        required="true"
                     />
-                </ComboBox>
-
-                <Label
-                    text="{i18n>month}"
-                    required="true"
-                />
-
-                <ComboBox
-                    id="comboboxMonth"
-                    items="{/VH_Months}"
-                    selectedKey="{
-                    path: 'form>/month',
-                    type: 'sap.ui.model.type.String',
-                    constraints: {
-                    minLength: 2 }}"
-                >
-                    <core:ListItem
-                        key="{code}"
-                        text="{descr}"
-                        additionalText="{code}"
-                    />
-                </ComboBox>
-
-                <Label
-                    text="{i18n>quantity}"
-                    required="true"
-                />
-
-                <Input
-                    id="inputQuantity"
-                    value="{
-                        path: 'form>/quantity',
-                        type: 'sap.ui.model.type.Integer',
+                    <ComboBox
+                        id="comboboxYear"
+                        items="{/VH_Years}"
+                        selectedKey="{
+                        path: 'form>/year',
+                        type: 'sap.ui.model.type.String',
                         constraints: {
-                            minimum: 1 }}"
-                />
+                        minLength: 4 }}"
+                    >
+                        <core:Item
+                            key="{ID}"
+                            text="{year}"
+                        />
+                    </ComboBox>
+                    <Label
+                        id="lMonth"
+                        text="{i18n>month}"
+                        required="true"
+                    />
+                    <ComboBox
+                        id="comboboxMonth"
+                        items="{/VH_Months}"
+                        showSecondaryValues="true"
+                        selectedKey="{
+                        path: 'form>/month',
+                        type: 'sap.ui.model.type.String',
+                        constraints: {
+                        minLength: 2 }}"
+                    >
+                        <core:ListItem
+                            key="{code}"
+                            text="{descr}"
+                            additionalText="{code}"
+                        />
+                    </ComboBox>
+                    <Label
+                        id="lQuantity"
+                        text="{i18n>quantity}"
+                        required="true"
+                    />
+                    <Input
+                        id="inputQuantity"
+                        value="{
+                           path: 'form>/quantity',
+                           type: 'sap.ui.model.type.Integer',
+                           constraints: {
+                           minimum: 1 }}"
+                    />
+                </f:content>
             </f:SimpleForm>
         </content>
 

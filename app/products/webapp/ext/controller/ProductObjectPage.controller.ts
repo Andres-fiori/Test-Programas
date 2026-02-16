@@ -9,209 +9,214 @@ import View from 'sap/ui/core/mvc/View';
 import type Dialog from 'sap/m/Dialog';
 import MessageToast from 'sap/m/MessageToast';
 import ODataModel from 'sap/ui/model/odata/v4/ODataModel';
+import Button from 'sap/m/Button';
+import Routing from 'sap/fe/core/controllerextensions/Routing';
 
 /**
  * @namespace products.ext.controller
  * @controller
  */
 export default class ProductObjectPage extends ControllerExtension<ExtensionAPI> {
+	// "ProductObjectPage" es el nombre de la clase del controller
+	// Representa una extensión del Object Page en Fiori Elements
+	// Aquí se implementan lógicas personalizadas (acciones, eventos, navegación, etc.)
+	//
+	// "extends ControllerExtension<ExtensionAPI>"
+	// Indica que esta clase NO es un controller UI5 normal,
+	// sino un controller de extensión específico de Fiori Elements
+	//
+	// ControllerExtension:
+	// - Permite extender el comportamiento estándar de FE
+	// - Se integra con el lifecycle del framework
+	//
+	// <ExtensionAPI>:
+	// Es el tipo genérico que define la API disponible:
+	// this.base.getExtensionAPI()
+	//
+	// Gracias a esto podés usar:
+	// - getModel()
+	// - getBindingContext()
+	// - getEditFlow()
+	// - getRouting()
+	// - invokeAction()
+	// etc.
 
+	// Declara una propiedad privada del controller para almacenar un JSONModel
+	// para guardar datos temporales del formulario
+	// (por ejemplo campos de un diálogo: año, mes, cantidad, etc.)
+	private _oFormModel: JSONModel;
+
+	// Declara una propiedad privada para almacenar la instancia del Popover
+	// poder reutilizar el fragment sin volver a cargarlo
 	private popover: Popover;
-	private dialog: Dialog;
 
+	// Declara una propiedad privada para almacenar la instancia del Dialog
+	// Permite abrir/cerrar el diálogo desde distintos métodos del controller
+	private dialog: Dialog;
+	private year: string;
+	private month: string;
+
+
+	// Objeto especial usado en Fiori Elements Extension Controllers
+	// "overrides" permite redefinir lifecycle hooks estándar de FE
 	static overrides = {
 		/**
-		 * Called when a controller is instantiated and its View controls (if available) are already created.
-		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
-		 * @memberOf products.ext.controller.ProductObjectPage
+		 * Método que se ejecuta automáticamente cuando se inicializa la página
+		 * Es equivalente al onInit() de un controller UI5 tradicional,
+		 * pero adaptado al framework de Fiori Elements
 		 */
 		onInit(this: ProductObjectPage) {
-			// you can access the Fiori elements extensionAPI via this.base.getExtensionAPI
+			// Hace un bind del método al contexto del controller
+			// Garantiza que "this" dentro de onNavToDetails siempre apunte al controller
+			// Es necesario cuando el método se usa como handler de eventos
+			//this.onNavToDetails = this.onNavToDetails.bind(this);
+
+			// Hace lo mismo para el método que abre el diálogo
+			// Evita el error típico: "this is undefined"
+			//this.onOpenDialog = this.onOpenDialog.bind(this);
+
+			// Obtiene el modelo OData principal del servicio RAP
+			// Este modelo está gestionado por Fiori Elements
+			// Se puede usar para leer datos, ejecutar acciones, etc.
 			const model = this.base.getExtensionAPI().getModel();
+			this.loadModel();
 		}
 	}
-
-	public async onSelectionChange(event: Chart$SelectionChangeEvent): Promise<void> {
-
-		// Obtiene el parámetro "data" del evento de selección del Chart.
-		// - event.getParameter("data") devuelve un array con los puntos seleccionados
-		// - [0] toma el primer punto seleccionado (modo Single)
-		// - .data contiene los valores de dimensión y medidas del gráfico
-		// - "as never" y "as any" se usan para evitar conflictos de tipado en TypeScript
-		const data = (event.getParameter("data" as never) as any)[0].data;
-
-		// Obtiene la vista actual del Object Page (vista raíz de la extensión)
-		// Se usa para:
-		// - obtener el ID correcto
-		// - registrar dependencias (lifecycle management)
-		// - evitar fugas de memoria
-		const view = this.base.getView();
-
-		// Verifica si el Popover aún no fue creado
-		// Esto evita cargar el Fragment cada vez que el usuario selecciona un punto del gráfico
-		if (!this.popover) {
-
-			// Carga asincrónicamente el Fragment XML del Popover
-			// id: se usa como prefijo de IDs internos del fragment (evita colisiones)
-			// name: ruta completa del fragment dentro del proyecto
-			// controller: permite que los eventos del fragment usen este controller
-			this.popover = await Fragment.load({
-				id: view.getId(),
-				name: "products.ext.fragment.Popover",
-				controller: this
-			}) as Popover;
-
-			// Registra el Popover como dependiente de la vista
-			// SAPUI5 se encarga automáticamente de:
-			// - destruir el Popover cuando se destruye la vista
-			// - propagar modelos y contexto
-			view.addDependent(this.popover);
-		}
-
-		// Crea un modelo JSON con los datos del punto seleccionado del gráfico
-		// Este modelo se usará dentro del Popover para mostrar la información
-		const model = new JSONModel(data);
-
-		// Asigna el modelo al Popover
-		// Por defecto se asigna como modelo principal (sin nombre)
-		// Los controles del fragment pueden acceder vía {property}
-		this.popover.setModel(model);
-
-		// Abre el Popover anclándolo al control que disparó el evento
-		// event.getSource() en este caso es el Chart
-		// openBy requiere un sap.ui.core.Control válido (no una View)
-		this.popover.openBy(event.getSource() as any);
-
-	}
-	public async onOpenDialog(): Promise<void> {
-		// Imprime un mensaje en la consola del navegador para confirmar que la función se ejecutó.
-		console.log("Abrimos de nuevo");
-
-		// Obtiene la instancia de la vista actual desde el controlador base para poder acceder a sus modelos.
-		const view = this.base.getView() as View;
-
-		// Obtiene el contexto de datos (binding) de la fila o entidad seleccionada en la aplicación.
-		const bindingContext = this.base.getExtensionAPI().getBindingContext() as Context;
-
-		// Extrae el valor de la propiedad "ID" del objeto seleccionado (útil si necesitas referenciarlo).
-		const productId = bindingContext.getProperty("ID");
-
-		// Define un objeto plano con las propiedades iniciales vacías para resetear el formulario.
-		const oDataVacia = {
+	private loadModel(): void {
+		let data = {
 			year: "",
 			month: "",
-			quantity: ""
+			quantity: null
+		}
+		const view = this.base.getView() as View;
+		const model = new JSONModel(data) as JSONModel;
+		view.setModel(model, "form");
+
+	}
+		// Method onSaveSales //
+	public async onSaveSales(): Promise<void> {
+		console.log("Creamos el items");
+		const view = this.base.getView() as View;
+		const model = view.getModel("form") as JSONModel;
+		const odata = this.base.getExtensionAPI().getModel() as ODataModel;
+		const bindingContext = this.base.getExtensionAPI().getBindingContext() as Context;
+		const $this = this;
+
+		await this.base.getExtensionAPI().getEditFlow().invokeAction("setSales", {
+			model: odata,
+			parameterValues: [
+				{
+					name: "id",
+					value: bindingContext.getProperty("ID")
+				},
+				{
+					name: "year",
+					value: model.getProperty("/year")
+				},
+				{
+					name: "month",
+					value: model.getProperty("/month")
+				},
+				{
+					name: "quantity",
+					value: model.getProperty("/quantity")
+				}
+			],
+			skipParameterDialog: true
+		}).then(() => {
+			MessageToast.show("Registro exitoso");
+			$this.onCancelSales();
+		})
+	}
+	// Method onSelectionChange //
+	public async onSelectionChange(event: Chart$SelectionChangeEvent): Promise<void> {
+
+		const bindingContextSales = event.getSource().getBindingContext() as Context;
+		const salesId = bindingContextSales.getProperty("ID");
+		const data = (event.getParameter("data" as never) as any)[0].data;
+		const routing = this.base.getExtensionAPI().getRouting() as Routing;
+		const bindingContext = this.base.getExtensionAPI().getBindingContext() as Context;
+		const view = this.base.getView() as View;
+		const actionDialog = this.base.getExtensionAPI().byId("products::ProductsObjectPage--fe::CustomSubSection::Sales--chart") as any;
+
+		if (!this.popover) {
+			this.popover = await Fragment.load({
+				id: view.getId(),
+				name: 'products.ext.fragment.Popover',
+				controller: this
+			}) as Popover;
 		};
 
-		// Intenta recuperar el modelo llamado "form" que ya debería estar (o no) asignado a la vista.
-		let oFormModel = view.getModel("form") as JSONModel;
+		const anchor = actionDialog || event.getSource();
+		const model = new JSONModel(data);
+		view.addDependent(this.popover);
+		this.popover.setModel(model);
 
-		// Estructura condicional: si el modelo no existe (primera vez que se abre el diálogo)...
-		if (!oFormModel) {
-			// Crea una nueva instancia de JSONModel cargada con los valores vacíos definidos arriba.
-			oFormModel = new JSONModel(oDataVacia);
-			// Asigna este nuevo modelo a la vista bajo el nombre "form" para que el fragmento lo reconozca.
-			view.setModel(oFormModel, "form");
-		} else {
-			// Si el modelo ya existía de aperturas previas, sobreescribe sus datos con el objeto vacío.
-			oFormModel.setData(oDataVacia);
-			// Fuerza al modelo a notificar a la interfaz (XML) que los valores cambiaron y debe refrescarse.
-			oFormModel.updateBindings(true);
+		if (this.popover && anchor) {
+			this.popover.openBy(anchor as any);
 		}
-
-		// Verifica si el fragmento del diálogo ya ha sido cargado en memoria anteriormente.
-		if (!this.dialog) {
-			// Carga el archivo XML del fragmento de forma asíncrona usando su ruta y el ID de la vista.
-			this.dialog = await Fragment.load({
-				id: view.getId(),
-				name: "products.ext.fragment.Form",
-				controller: this // Permite que el fragmento use los métodos de este controlador.
-			}) as Dialog;
-
-			// Conecta el diálogo a la vista para que pueda heredar sus modelos (como i18n o el OData).
-			view.addDependent(this.dialog);
-		}
-
-		// Vincula el diálogo al contexto del objeto seleccionado para mostrar datos específicos si fuera necesario.
-		this.dialog.setBindingContext(bindingContext);
-
-		// Hace visible el diálogo en la interfaz de usuario.
-		this.dialog.open();
 	}
 
-	public async onSaveSales(): Promise<void> {
-		// Obtiene la referencia de la vista actual para poder buscar sus modelos de datos.
+	// Method onOpenDialog //
+	public async onOpenDialog(): Promise<void> {
+		console.log("Es prueba");
+		const bindingContext = this.base.getExtensionAPI().getBindingContext() as Context;
+		const productId = bindingContext.getProperty("ID");
 		const view = this.base.getView() as View;
 
-		// Accede al modelo local llamado "form" donde el usuario escribió el año, mes y cantidad.
-		const model = view.getModel("form") as JSONModel;
-
-		// Obtiene el modelo principal OData V4 definido en el manifest (el que conecta con la base de datos).
-		const odata = this.base.getExtensionAPI().getModel() as ODataModel;
-
-		// Recupera el contexto de la fila seleccionada para saber a qué producto se le asignarán las ventas.
-		const bindingContext = this.base.getExtensionAPI().getBindingContext() as Context;
-
-		try {
-			// Ejecuta una acción de backend (Action) de forma asíncrona usando la API de Fiori Elements.
-			await this.base.getExtensionAPI().getEditFlow().invokeAction(
-				"setSales", // Nombre técnico de la acción definida en tu servicio CAP o ABAP.
-				{
-					model: odata, // Especifica que la acción se debe ejecutar sobre el modelo OData.
-					parameterValues: [ // Lista de parámetros que el backend espera recibir.
-						{
-							name: "productId",
-							value: bindingContext.getProperty("ID") // Envía el ID del producto seleccionado.
-						},
-						{
-							name: "year",
-							value: model.getProperty("/year") // Captura el año ingresado en el formulario.
-						},
-						{
-							name: "month",
-							value: model.getProperty("/month") // Captura el mes ingresado en el formulario.
-						},
-						{
-							name: "quantity",
-							value: model.getProperty("/quantity") // Captura la cantidad ingresada en el formulario.
-						}
-					],
-					// Indica que no debe mostrarse el cuadro de diálogo automático de parámetros de UI5.
-					skipParameterDialog: true
-				}
-			);
-
-			// Si la acción fue exitosa, muestra un mensaje flotante de confirmación al usuario.
-			MessageToast.show("Registro exitoso");
-
-			// Ejecuta la función de cancelación para cerrar el diálogo y limpiar el estado.
-			this.onCancelSales();
-
-		} catch (e) {
-			// Si la llamada falla (error 404, 500, etc.), atrapamos el error aquí.
-			console.error("El backend falló, pero forzaremos el mensaje de éxito.");
-		} finally {
-			/** 
-			 * LÓGICA DE FORZADO:
-			 * Al colocar el mensaje y el cierre aquí (o después del catch), 
-			 * el usuario verá "Registro exitoso" aunque el backend haya fallado.
-			 */
-
-			// Muestra el mensaje de éxito sin importar si se creó realmente en DB.
-			MessageToast.show("Registro exitoso");
-
-			// Cierra el diálogo y limpia los campos visualmente.
-			this.onCancelSales();
-
-			// Si el diálogo existe, lo cerramos para dar sensación de finalización.
-			if (this.dialog) {
-				this.dialog.close();
-			}
+		if (!this.dialog) {
+			this.dialog = await Fragment.load({
+				id: view.getId(),
+				name: 'products.ext.fragment.Form',
+				controller: this
+			}) as Dialog;
 		}
-
+		view.addDependent(this.dialog);
+		this.dialog.bindElement({
+			path: '/',
+			model: ''
+		});
+		this.dialog.open();
 	}
+	public CancelSales(): void {
+		this.dialog.close();
+	}
+
+	// Method onCancelSales
 	public async onCancelSales(): Promise<void> {
 		this.dialog.close();
+	}
+	// Method onCloseNavToDetails //
+	public onCloseNavToDetails(): void {
+		// Verifica que el popover exista antes de intentar cerrarlo
+		if (this.popover) {
+			this.popover.close();
+		}
+	}
+	// Method onNavToDetails //
+	public onNavToDetails(): void {
+		console.log("Entramos a details");
+
+		const bindingContext = this.base.getExtensionAPI().getBindingContext() as Context;
+		const productId = bindingContext.getProperty("ID");
+		const isActiveEntity = bindingContext.getProperty("IsActiveEntity");
+
+		// SOLUCIÓN: Extraer los datos exactos que muestra tu consola
+		//const oSelectedData = this.popover.getModel("selectedPoint").getData();
+		const oSelectedData = (this as any).popover.getModel("selectedPoint").getData();
+
+		// Verificamos en consola antes de navegar
+		console.log("Año extraído:", oSelectedData.year); // Debería decir "2022"
+		console.log("Mes extraído:", oSelectedData.month); // Debería decir "February"
+
+		this.base.getExtensionAPI().getRouting().navigateToRoute("SalesReviewPage", {
+			key: productId,
+			boolean: isActiveEntity,
+			year: oSelectedData.year,  // Ahora pasará "2022"
+			month: oSelectedData.month // Ahora pasará "February"
+		});
+
+		console.log(oSelectedData, productId);
 	}
 
 }

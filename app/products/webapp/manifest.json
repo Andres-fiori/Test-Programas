@@ -45,7 +45,7 @@
   "sap.ui5": {
     "flexEnabled": false,
     "dependencies": {
-      "minUI5Version": "1.139.0",
+      "minUI5Version": "1.120.0",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -92,6 +92,11 @@
           "name": "ProductsProductsObjectPagePage",
           "pattern": "Products({ProductsKey}):?query:",
           "target": "ProductsProductsObjectPagePage"
+        },
+        {
+          "name": "SalesReviewPage",
+          "pattern": "Products(ID={key},IsActiveEntity={boolean})/toSales(year='{year}',month='{month}')",
+          "target": "SalesReviewPage"
         }
       ],
       "targets": {
@@ -119,7 +124,13 @@
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
-              "navigation": {},
+              "navigation": {
+                "toSales": {
+                  "detail": {
+                    "route": "SalesReviewPage"
+                  }
+                }
+              },
               "contextPath": "/Products",
               "viewName": "products.ext.view.ProductsObjectPage",
               "content": {
@@ -128,14 +139,25 @@
                     "Sales": {
                       "template": "products.ext.fragment.Sales",
                       "position": {
-                        "placement": "After",
-                        "anchor": "ToSales"
+                        "placement": "After"
                       },
                       "title": "Sales Chart"
                     }
                   }
                 }
               }
+            }
+          }
+        },
+        "SalesReviewPage": {
+          "type": "Component",
+          "id": "SalesReviewPage",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "navigation": {},
+              "contextPath": "/Products/toSales",
+              "viewName": "products.ext.view.Review"
             }
           }
         }
