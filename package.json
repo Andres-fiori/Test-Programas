@@ -10,10 +10,12 @@
     "express": "^4.21.2"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^2"
+    "@cap-js/sqlite": "^2",
+    "cds-plugin-ui5": "^0.13.0"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "watch-products": "cds watch --open products/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "private": true,
   "cds": {
@@ -29,9 +31,15 @@
         "kind": "odata-v2",
         "model": "srv/external/API_BUSINESS_PARTNER_RM",
         "credentials": {
-          "url":"http://s4h22.sap4practice.com:8007/sap/opu/odata/sap/API_BUSINESS_PARTNER/"
+          "url": "http://s4h22.sap4practice.com:8007/sap/opu/odata/sap/API_BUSINESS_PARTNER/"
         }
       }
     }
-  }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/products"
+  ]
 }
