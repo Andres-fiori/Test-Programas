@@ -24,7 +24,7 @@ entity Products : cuid, managed {
     currency      : Association to Currencies; //currency_code
     detail        : Composition of ProductDetails; //detail_ID
     supplier      : Association to Suppliers; //supplier_ID
-    rsupplier     : Association to bp.A_Supplier;           //rsupplier - rsupplier_Supplier
+    rsupplier     : Association to bp.A_Supplier; //rsupplier - rsupplier_Supplier
     toReviews     : Composition of many Reviews
                         on toReviews.product = $self;
     toInventories : Composition of many Inventories
@@ -122,4 +122,8 @@ entity Options : CodeList {
             A = 'Add';
             D = 'Discount'
         }
+};
+entity Months {
+    key code  : String(2);
+        descr : String(20);
 }

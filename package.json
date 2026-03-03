@@ -6,8 +6,8 @@
     "@sap-cloud-sdk/connectivity": "^4.3.1",
     "@sap-cloud-sdk/http-client": "^4.3.1",
     "@sap-cloud-sdk/resilience": "^4.3.1",
-    "@sap/cds": "^9.4.5",
-    "express": "^4.21.2"
+    "@sap/cds": "^9.7.1",
+    "express": "^4.22.1"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^2",

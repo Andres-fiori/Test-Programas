@@ -218,6 +218,39 @@ annotate service.Products with @(
             },
         ]
     },
+    UI.FieldGroup #Supplier: {
+        $Type: 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type: 'UI.DataField',
+                Value: supplier_ID
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: category_ID
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: subCategory_ID
+            },
+        ]
+    },
+    UI.FieldGroup #SupplierInformation          : {
+        $Type: 'UI.FieldGroupType',
+        Data : 
+            [{
+            $Type: 'UI.DataField',
+            Value: supplier.supplier
+            },
+            {
+            $Type: 'UI.DataField',
+            Value: supplier.supplierName   
+            },
+            {
+            $Type: 'UI.DataField',
+            Value: supplier.webAddress
+            }]
+    },
     UI.FieldGroup #Description        : {
         $Type: 'UI.FieldGroupType',
         Data : [{
@@ -226,7 +259,7 @@ annotate service.Products with @(
             Label: ''
         }]
     },
-    UI.FieldGroup #Availability       : {
+    UI.FieldGroup #Status       : {
         $Type: 'UI.FieldGroupType',
         Data : [{
             $Type               : 'UI.DataField',

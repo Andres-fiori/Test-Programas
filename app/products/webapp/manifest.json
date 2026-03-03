@@ -43,12 +43,13 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
-      "minUI5Version": "1.139.4",
+      "minUI5Version": "1.120.0",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
+        "sap.fe.templates": {},
         "sap.fe.core": {}
       }
     },
@@ -87,19 +88,88 @@
           "name": "ProductsMain",
           "pattern": ":?query:",
           "target": "ProductsMain"
+        },
+        {
+          "name": "ProductsProductsObjectPagePage",
+          "pattern": "Products({ProductsKey}):?query:",
+          "target": "ProductsProductsObjectPagePage"
+        },
+        {
+          "name": "SalesReviewPage",
+          "pattern": "Products(ID={key},IsActiveEntity={boolean})/toSales(year={year},month={month}):?query:",
+          "target": "SalesReviewPage"
         }
       ],
       "targets": {
         "ProductsMain": {
           "type": "Component",
           "id": "ProductsMain",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "navigation": {
+                "Products": {
+                  "detail": {
+                    "route": "ProductsProductsObjectPagePage"
+                  }
+                }
+              },
+              "contextPath": "/Products",
+              "viewName": "products.ext.main.Main"
+            }
+          }
+        },
+        "ProductsProductsObjectPagePage": {
+          "type": "Component",
+          "id": "ProductsProductsObjectPagePage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "navigation": {
+                "toSales": {
+                  "detail": {
+                    "route": "SalesReviewPage"
+                  }
+                }
+              },
+              "contextPath": "/Products",
+              "viewName": "products.ext.view.ProductsObjectPage",
+              "content": {
+                "body": {
+                  "sections": {
+                    "Sales": {
+                      "template": "products.ext.fragment.Sales",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "toSales"
+                      },
+                      "title": "Sales"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "SalesReviewPage": {
+          "type": "Component",
+          "id": "SalesReviewPage",
           "name": "sap.fe.core.fpm",
           "options": {
             "settings": {
               "navigation": {},
-              "contextPath": "/Products",
-              "viewName": "products.ext.main.Main"
+              "contextPath": "/Products/toReview",
+              "viewName": "products.ext.view.Review"
             }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ObjectPage.ObjectPageController": {
+            "controllerName": "products.ext.controller.ProductObjectPage"
           }
         }
       }

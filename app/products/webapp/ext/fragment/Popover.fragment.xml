@@ -1,0 +1,57 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Popover
+        id="popover"
+        placement="Bottom"
+    >
+        <content>
+            <form:SimpleForm id="formDetails">
+                <Label
+                    id="labelYear"
+                    text="Year"
+                />
+                <Text
+                    id="textYear"
+                    text="{/year}"
+                />
+                <Label
+                    id="labelMonth"
+                    text="Month"
+                />
+                <Text
+                    id="textMonth"
+                    text="{/month}"
+                />
+                <Label
+                    id="labelQuantity"
+                    text="QuantitySales"
+                />
+                <Text
+                    id="textQuantity"
+                    text="{/Sales}"
+                />
+            </form:SimpleForm>
+        </content>
+
+        <footer>
+            <Toolbar id="toolbar">
+                <Button
+                    id="buttonClosed"
+                    text="Close"
+                    press="onCloseNavToDetails"
+                />
+                <ToolbarSpacer id="toolbarSpacer" />
+                <Button
+                    id="buttonNavTo"
+                    text="Go Details"
+                    press="onNavToDetails"
+                    type="Emphasized"
+                />
+            </Toolbar>
+        </footer>
+        
+    </Popover>
+</core:FragmentDefinition>
